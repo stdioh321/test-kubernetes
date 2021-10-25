@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: amigos-code-depl    
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: amigos-code
+  template:
+    metadata:
+      labels:
+        app: amigos-code      
+    spec:
+      nodeSelector:
+        mylabel: mylabel
+      containers:
+      - name: amigos-code
+        image: amigoscode/kubernetes:springboot-react-fullstack-v1
+        ports:
+        - containerPort: 8080
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: amigos-code-service
+spec:
+  selector:
+    app: amigos-code
+  type: NodePort
+  ports:
+  - port: 8080
+    targetPort: 8080

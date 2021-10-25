@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-deployment
+spec:
+  selector:
+    matchLabels:
+      app: sample
+  replicas: 2
+  template:
+
+    metadata:
+      labels:
+        app: sample
+    
+    spec:
+      containers:
+      - name: sample        
+        image: nginx        
+        env:
+          - name: MYENV
+            value: "My new Value"
+        ports:
+        - containerPort: 80
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-service
+spec:
+  selector:
+    app: sample
+  ports:
+  - port: 9898
+    targetPort: 80
+
+
